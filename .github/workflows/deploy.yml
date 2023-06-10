@@ -1,8 +1,8 @@
 name: Deploy
 
 on:
-  #schedule:
-  #  - cron: '5 23 * * 0' # 08:05(Mon) JST
+  schedule:
+   - cron: '0 12 * * *' # every day 14:00 UCT+2
   workflow_dispatch:
 
 jobs:
