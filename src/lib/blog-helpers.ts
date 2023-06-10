@@ -181,7 +181,7 @@ export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
     return richText.Text.Content
   })
     .join()
-    .trim(
+    .trim()
 }
 
 export const isTweetURL = (url: URL): boolean => {
