@@ -150,7 +150,7 @@ export const getPageLink = (page: number, tag: string) => {
     : pathJoin(BASE_PATH, `/posts/page/${page.toString()}`)
 }
 
-export const getDateStr = (date: string) => {
+export const getDateAndTimeStr = (date: string) => {
   const dt = new Date(date)
 
   if (date.indexOf('T') !== -1) {
@@ -165,7 +165,11 @@ export const getDateStr = (date: string) => {
   const y = dt.getFullYear()
   const m = ('00' + (dt.getMonth() + 1)).slice(-2)
   const d = ('00' + dt.getDate()).slice(-2)
-  return y + '-' + m + '-' + d
+
+  const hour =  ('00' + dt.getHours()).slice(-2)
+  const minute =  ('00' + dt.getMinutes()).slice(-2)
+
+  return y + '-' + m + '-' + d + '\xa0\xa0' + hour + ' : ' + minute
 }
 
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
