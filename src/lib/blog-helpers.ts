@@ -170,7 +170,7 @@ export const getDateAndTimeStr = (date: string) => {
   const hour =  ('00' + dt.getHours()).slice(-2)
   const minute =  ('00' + dt.getMinutes()).slice(-2)
 
-  return y + '-' + m + '-' + d + ''\xa0\xa0\xa0' + hour + ' : ' + minute
+  return y + '-' + m + '-' + d + '\xa0\xa0\xa0' + hour + ' : ' + minute
 }
 
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
