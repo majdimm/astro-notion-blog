@@ -153,15 +153,14 @@ export const getPageLink = (page: number, tag: string) => {
 export const getDateAndTimeStr = (date: string) => {
   const dt = new Date(date)
 
-  // note: 設定したタイムゾーンの日時をそのまま表示するため不要
-  // if (date.indexOf('T') !== -1) {
-  //   // Consider timezone
-  //   const elements = date.split('T')[1].split(/([+-])/)
-  //   if (elements.length > 1) {
-  //     const diff = parseInt(`${elements[1]}${elements[2]}`, 10)
-  //     dt.setHours(dt.getHours() + diff)
-  //   }
-  // }
+  if (date.indexOf('T') !== -1) {
+    // Consider timezone
+    const elements = date.split('T')[1].split(/([+-])/)
+    if (elements.length > 1) {
+      const diff = parseInt(`${elements[1]}${elements[2]}`, 10)
+      dt.setHours(dt.getHours() + diff)
+    }
+  }
 
   const y = dt.getFullYear()
   const m = ('00' + (dt.getMonth() + 1)).slice(-2)
