@@ -150,22 +150,27 @@ export const getPageLink = (page: number, tag: string) => {
     : pathJoin(BASE_PATH, `/posts/page/${page.toString()}`)
 }
 
-export const getDateStr = (date: string) => {
+export const getDateAndTimeStr = (date: string) => {
   const dt = new Date(date)
 
-  if (date.indexOf('T') !== -1) {
-    // Consider timezone
-    const elements = date.split('T')[1].split(/([+-])/)
-    if (elements.length > 1) {
-      const diff = parseInt(`${elements[1]}${elements[2]}`, 10)
-      dt.setHours(dt.getHours() + diff)
-    }
-  }
+  // note: 設定したタイムゾーンの日時をそのまま表示するため不要
+  // if (date.indexOf('T') !== -1) {
+  //   // Consider timezone
+  //   const elements = date.split('T')[1].split(/([+-])/)
+  //   if (elements.length > 1) {
+  //     const diff = parseInt(`${elements[1]}${elements[2]}`, 10)
+  //     dt.setHours(dt.getHours() + diff)
+  //   }
+  // }
 
   const y = dt.getFullYear()
   const m = ('00' + (dt.getMonth() + 1)).slice(-2)
   const d = ('00' + dt.getDate()).slice(-2)
-  return y + '-' + m + '-' + d
+
+  const hour =  ('00' + dt.getHours()).slice(-2)
+  const minute =  ('00' + dt.getMinutes()).slice(-2)
+
+  return y + '-' + m + '-' + d + '  ' + hour + ' : ' + minute
 }
 
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
@@ -176,7 +181,7 @@ export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
     return richText.Text.Content
   })
     .join()
-    .trim()
+    .trim(￥￥
 }
 
 export const isTweetURL = (url: URL): boolean => {
