@@ -38,14 +38,12 @@ if (!post) {
   throw new Error('Post not found. slug: ${slug}')
 }
 
-const [blocks, allPosts, rankedPosts, recentPosts, tags, postsHavingSameTag] =
+const [blocks, allPosts, recentPosts, tags] =
   await Promise.all([
     getAllBlocksByBlockId(post.PageId),
     getAllPosts(),
-    getRankedPosts(),
     getPosts(5),
     getAllTags(),
-    getPostsByTag(post.Tags[0]?.name, 6),
   ])
 
 const fileAtacchedBlocks = extractTargetBlocks('image', blocks)
@@ -113,13 +111,6 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
   </div>
 
   <div slot="aside" class="aside">
-    <!-- <BlogPostsLink
-      heading="Posts in the same category"
-      posts={postsHavingSameTag.filter(
-        (p: interfaces.Post) => p.Slug !== post.Slug
-      )}
-    /> -->
-    <!-- <BlogPostsLink heading="Recommended" posts={rankedPosts} /> -->
     <BlogPostsLink heading="Latest posts" posts={recentPosts} />
     <BlogTagsLink heading="Categories" tags={tags} />
   </div>
