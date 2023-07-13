@@ -291,25 +291,25 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   return allBlocks
 }
 
-export async function getPreviews(posts:Post[]): Promise<Map<String, String>> {
+export async function getPageIdPreviewMap(posts:Post[]): Promise<Map<String, String>> {
   let result = new Map<String, String>()
 
   for (let i = 0; i < posts.length; i++) {
     let post = posts[i]
-    let preview = await getPreviewByBlockId(post.PageId)
+    let preview = await _getPreviewByPageId(post.PageId)
     result.set(post.PageId, preview)
   }
   return result
 }
 
-export async function getPreviewByBlockId(blockId: string): Promise<String> {
+async function _getPreviewByPageId(pageId: string): Promise<String> {
   let results: responses.BlockObject[] = []
 
-  if (fs.existsSync(`tmp/${blockId}.json`)) {
-    results = JSON.parse(fs.readFileSync(`tmp/${blockId}.json`, 'utf-8'))
+  if (fs.existsSync(`tmp/${pageId}.json`)) {
+    results = JSON.parse(fs.readFileSync(`tmp/${pageId}.json`, 'utf-8'))
   } else {
     const params: requestParams.RetrieveBlockChildren = {
-      block_id: blockId,
+      block_id: pageId,
     }
 
     while (true) {
@@ -331,6 +331,7 @@ export async function getPreviewByBlockId(blockId: string): Promise<String> {
   const allParagraphBlocks = paragraphBlockObjects.map((object) => _buildBlock(object))
 
   let previewText = ''
+  const PREVIEW_LENGTH = 200
 
   for (let i = 0; i < allParagraphBlocks.length; i++) {
     const block = allParagraphBlocks[i]
@@ -339,25 +340,25 @@ export async function getPreviewByBlockId(blockId: string): Promise<String> {
       previewText += block.Paragraph!.RichTexts[0].PlainText
     }
 
-    if (previewText.length > 100) {
-      previewText = previewText.substring(0, 100)
+    if (previewText.length > PREVIEW_LENGTH) {
+      previewText = previewText.substring(0, PREVIEW_LENGTH)
+      previewText += '...'
       break
     }
-
 　　 if (
       block.Paragraph &&
       block.HasChildren
     ) {
-      previewText += getParagraphBlocksByBlockId(block.Id)
-    }
+      previewText += _getPreviewByPageId(block.Id)
 
-    if (previewText.length > 100) {
-      previewText = previewText.substring(0, 100)
-      break
+      if (previewText.length > PREVIEW_LENGTH) {
+        previewText = previewText.substring(0, PREVIEW_LENGTH)
+        previewText += '...'
+        break
+      }
     }
   }
 
-  console.log('previewText: ' + previewText)
   return previewText
 }
 

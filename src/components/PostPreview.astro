@@ -1,6 +1,6 @@
 ---
 import { Post } from '../lib/interfaces.js'
-import { getPreview } from '../lib/blog-helpers.ts'
+import { getPreviewByPostId } from '../lib/blog-helpers.ts'
 
 export interface Props {
   previews: Map<String, String>
@@ -11,7 +11,7 @@ const { previews, post } = Astro.props
 ---
 
 <div class="post-excerpt">
-  <p>{post.PageId ? getPreview(previews, post.PageId) : ''}</p>
+  <p>{post.PageId ? getPreviewByPostId(previews, post.PageId) : ''}</p>
 </div>
 
 <style>
