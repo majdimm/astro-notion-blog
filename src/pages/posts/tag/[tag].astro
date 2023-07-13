@@ -12,14 +12,12 @@ import NoContents from '../../../components/NoContents.astro'
 import PostDate from '../../../components/PostDate.astro'
 import PostTitle from '../../../components/PostTitle.astro'
 import PostFeaturedImage from '../../../components/PostFeaturedImage.astro'
-import PostExcerpt from '../../../components/PostExcerpt.astro'
 import PostPreview from '../../../components/PostPreview.astro'
 import ReadMoreLink from '../../../components/ReadMoreLink.astro'
 import Pagination from '../../../components/Pagination.astro'
 import BlogTagsLink from '../../../components/BlogTagsLink.astro'
 import styles from '../../../styles/blog.module.css'
 import '../../../styles/notion-color.css'
-import { getPreviewByPostId } from '../../../lib/blog-helpers'
 
 export async function getStaticPaths() {
   const allTags = await getAllTags()
