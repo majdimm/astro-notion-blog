@@ -4,6 +4,7 @@ import {
   getPostsByTagAndPage,
   getAllTags,
   getNumberOfPagesByTag,
+  getPageIdPreviewMap
 } from '../../../../../lib/notion/client.ts'
 import Layout from '../../../../../layouts/Layout.astro'
 import NoContents from '../../../../../components/NoContents.astro'
@@ -11,6 +12,7 @@ import PostDate from '../../../../../components/PostDate.astro'
 import PostTitle from '../../../../../components/PostTitle.astro'
 import PostFeaturedImage from '../../../../../components/PostFeaturedImage.astro'
 import PostExcerpt from '../../../../../components/PostExcerpt.astro'
+import PostPreview from '../../../../../components/PostPreview.astro'
 import ReadMoreLink from '../../../../../components/ReadMoreLink.astro'
 import Pagination from '../../../../../components/Pagination.astro'
 import BlogTagsLink from '../../../../../components/BlogTagsLink.astro'
@@ -43,6 +45,10 @@ const [posts, tags, numberOfPages] = await Promise.all([
   getNumberOfPagesByTag(tag),
 ])
 
+const [previews] = await Promise.all([
+  getPageIdPreviewMap(posts)
+])
+
 const currentTag = posts[0].Tags.find((t) => t.name === tag)
 ---
 
@@ -67,7 +73,7 @@ const currentTag = posts[0].Tags.find((t) => t.name === tag)
             <PostDate post={post} />
             <PostTitle post={post} />
             <PostFeaturedImage post={post} />
-            <PostExcerpt post={post} />
+            <PostPreview previews={previews} post={post} />
             <ReadMoreLink post={post} />
           </div>
         ))
