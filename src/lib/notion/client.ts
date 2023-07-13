@@ -291,18 +291,18 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   return allBlocks
 }
 
-export async function getPageIdPreviewMap(posts:Post[]): Promise<Map<String, String>> {
-  let result = new Map<String, String>()
+export async function getPageIdPreviewMap(posts:Post[]): Promise<Map<string, string>> {
+  const result = new Map<string, string>()
 
   for (let i = 0; i < posts.length; i++) {
-    let post = posts[i]
-    let preview = await _getPreviewByPageId(post.PageId)
+    const post = posts[i]
+    const preview = await _getPreviewByPageId(post.PageId)
     result.set(post.PageId, preview)
   }
   return result
 }
 
-async function _getPreviewByPageId(pageId: string): Promise<String> {
+async function _getPreviewByPageId(pageId: string): Promise<string> {
   let results: responses.BlockObject[] = []
 
   if (fs.existsSync(`tmp/${pageId}.json`)) {
@@ -337,7 +337,7 @@ async function _getPreviewByPageId(pageId: string): Promise<String> {
     const block = allParagraphBlocks[i]
 
     if (block.Paragraph?.RichTexts[0]) {
-      previewText += block.Paragraph!.RichTexts[0].PlainText
+      previewText += block.Paragraph.RichTexts[0].PlainText
     }
 
     if (previewText.length > PREVIEW_LENGTH) {

@@ -172,7 +172,7 @@ export const getDateAndTimeStr = (date: string) => {
   return y + '-' + m + '-' + d + '\xa0\xa0' + hour + ' : ' + minute
 }
 
-export const getPreviewByPostId = (previews: Map<String, String>, postId: String) => {
+export const getPreviewByPostId = (previews: Map<string, string>, postId: string) => {
   return previews.get(postId) ? previews.get(postId) : ''
 }
 
