@@ -1,0 +1,26 @@
+---
+import { Post } from '../lib/interfaces.js'
+import { getPreview } from '../lib/blog-helpers.ts'
+
+export interface Props {
+  previews: Map<String, String>
+  post: Post
+}
+
+const { previews, post } = Astro.props
+---
+
+<div class="post-excerpt">
+  <p>{post.PageId ? getPreview(previews, post.PageId) : ''}</p>
+</div>
+
+<style>
+  .post-excerpt {
+    padding: 0.2rem 0;
+    font-size: 1rem;
+  }
+
+  .post-excerpt p {
+    margin: 0;
+  }
+</style>

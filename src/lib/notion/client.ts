@@ -291,6 +291,76 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   return allBlocks
 }
 
+export async function getPreviews(posts:Post[]): Promise<Map<String, String>> {
+  let result = new Map<String, String>()
+
+  for (let i = 0; i < posts.length; i++) {
+    let post = posts[i]
+    let preview = await getPreviewByBlockId(post.PageId)
+    result.set(post.PageId, preview)
+  }
+  return result
+}
+
+export async function getPreviewByBlockId(blockId: string): Promise<String> {
+  let results: responses.BlockObject[] = []
+
+  if (fs.existsSync(`tmp/${blockId}.json`)) {
+    results = JSON.parse(fs.readFileSync(`tmp/${blockId}.json`, 'utf-8'))
+  } else {
+    const params: requestParams.RetrieveBlockChildren = {
+      block_id: blockId,
+    }
+
+    while (true) {
+      const res = (await client.blocks.children.list(
+        params as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      )) as responses.RetrieveBlockChildrenResponse
+
+      results = results.concat(res.results)
+
+      if (!res.has_more) {
+        break
+      }
+
+      params['start_cursor'] = res.next_cursor as string
+    }
+  }
+
+  const paragraphBlockObjects = results.filter((blockObject) => blockObject.type == 'paragraph')
+  const allParagraphBlocks = paragraphBlockObjects.map((object) => _buildBlock(object))
+
+  let previewText = ''
+
+  for (let i = 0; i < allParagraphBlocks.length; i++) {
+    const block = allParagraphBlocks[i]
+
+    if (block.Paragraph?.RichTexts[0]) {
+      previewText += block.Paragraph!.RichTexts[0].PlainText
+    }
+
+    if (previewText.length > 100) {
+      previewText = previewText.substring(0, 100)
+      break
+    }
+
+　　 if (
+      block.Paragraph &&
+      block.HasChildren
+    ) {
+      previewText += getParagraphBlocksByBlockId(block.Id)
+    }
+
+    if (previewText.length > 100) {
+      previewText = previewText.substring(0, 100)
+      break
+    }
+  }
+
+  console.log('previewText: ' + previewText)
+  return previewText
+}
+
 export async function getBlock(blockId: string): Promise<Block> {
   const params: requestParams.RetrieveBlock = {
     block_id: blockId,
