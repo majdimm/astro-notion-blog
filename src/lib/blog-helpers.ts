@@ -172,6 +172,10 @@ export const getDateAndTimeStr = (date: string) => {
   return y + '-' + m + '-' + d + '\xa0\xa0' + hour + ' : ' + minute
 }
 
+export const getPreviewByPostId = (previews: Map<string, string>, postId: string) => {
+  return previews.get(postId) ? previews.get(postId) : ''
+}
+
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
   return heading.RichTexts.map((richText: RichText) => {
     if (!richText.Text) {

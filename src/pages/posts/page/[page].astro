@@ -3,14 +3,14 @@ import {
   getPostsByPage,
   getAllTags,
   getNumberOfPages,
-  getPostsByPage,
+  getPageIdPreviewMap,
 } from '../../../lib/notion/client.ts'
 import Layout from '../../../layouts/Layout.astro'
 import NoContents from '../../../components/NoContents.astro'
 import PostDate from '../../../components/PostDate.astro'
 import PostTitle from '../../../components/PostTitle.astro'
 import PostFeaturedImage from '../../../components/PostFeaturedImage.astro'
-import PostExcerpt from '../../../components/PostExcerpt.astro'
+import PostPreview from '../../../components/PostPreview.astro'
 import ReadMoreLink from '../../../components/ReadMoreLink.astro'
 import Pagination from '../../../components/Pagination.astro'
 import BlogTagsLink from '../../../components/BlogTagsLink.astro'
@@ -33,6 +33,10 @@ const [posts, tags, numberOfPages] = await Promise.all([
   getAllTags(),
   getNumberOfPages(),
 ])
+
+const [previews] = await Promise.all([
+  getPageIdPreviewMap(posts)
+])
 ---
 
 <Layout title={`Posts ${page}/${numberOfPages}`} path={`/posts/page/${page}`}>
@@ -50,7 +54,7 @@ const [posts, tags, numberOfPages] = await Promise.all([
             <PostDate post={post} />
             <PostTitle post={post} />
             <PostFeaturedImage post={post} />
-            <PostExcerpt post={post} />
+            <PostPreview previews={previews} post={post} />
             <ReadMoreLink post={post} />
           </div>
         ))

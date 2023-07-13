@@ -291,6 +291,77 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   return allBlocks
 }
 
+export async function getPageIdPreviewMap(posts:Post[]): Promise<Map<string, string>> {
+  const result = new Map<string, string>()
+
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i]
+    const preview = await _getPreviewByPageId(post.PageId)
+    result.set(post.PageId, preview)
+  }
+  return result
+}
+
+async function _getPreviewByPageId(pageId: string): Promise<string> {
+  let results: responses.BlockObject[] = []
+
+  if (fs.existsSync(`tmp/${pageId}.json`)) {
+    results = JSON.parse(fs.readFileSync(`tmp/${pageId}.json`, 'utf-8'))
+  } else {
+    const params: requestParams.RetrieveBlockChildren = {
+      block_id: pageId,
+    }
+
+    while (true) {
+      const res = (await client.blocks.children.list(
+        params as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      )) as responses.RetrieveBlockChildrenResponse
+
+      results = results.concat(res.results)
+
+      if (!res.has_more) {
+        break
+      }
+
+      params['start_cursor'] = res.next_cursor as string
+    }
+  }
+
+  const paragraphBlockObjects = results.filter((blockObject) => blockObject.type == 'paragraph')
+  const allParagraphBlocks = paragraphBlockObjects.map((object) => _buildBlock(object))
+
+  let previewText = ''
+  const PREVIEW_LENGTH = 200
+
+  for (let i = 0; i < allParagraphBlocks.length; i++) {
+    const block = allParagraphBlocks[i]
+
+    if (block.Paragraph?.RichTexts[0]) {
+      previewText += block.Paragraph.RichTexts[0].PlainText
+    }
+
+    if (previewText.length > PREVIEW_LENGTH) {
+      previewText = previewText.substring(0, PREVIEW_LENGTH)
+      previewText += '...'
+      break
+    }
+　　 if (
+      block.Paragraph &&
+      block.HasChildren
+    ) {
+      previewText += _getPreviewByPageId(block.Id)
+
+      if (previewText.length > PREVIEW_LENGTH) {
+        previewText = previewText.substring(0, PREVIEW_LENGTH)
+        previewText += '...'
+        break
+      }
+    }
+  }
+
+  return previewText
+}
+
 export async function getBlock(blockId: string): Promise<Block> {
   const params: requestParams.RetrieveBlock = {
     block_id: blockId,
