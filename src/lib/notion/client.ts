@@ -338,6 +338,7 @@ async function _getPreviewByPageId(pageId: string): Promise<string> {
 
     if (block.Paragraph?.RichTexts[0]) {
       previewText += block.Paragraph.RichTexts[0].PlainText
+      previewText += '\n'
     }
 
     if (previewText.length > PREVIEW_LENGTH) {

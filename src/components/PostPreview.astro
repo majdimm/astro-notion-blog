@@ -10,17 +10,18 @@ export interface Props {
 const { previews, post } = Astro.props
 ---
 
-<div class="post-excerpt">
+<div class="post-preview">
   <p>{post.PageId ? getPreviewByPostId(previews, post.PageId) : ''}</p>
 </div>
 
 <style>
-  .post-excerpt {
+  .post-preview {
     padding: 0.2rem 0;
     font-size: 1rem;
   }
 
-  .post-excerpt p {
+  .post-preview p {
     margin: 0;
+    white-space: pre-wrap;
   }
 </style>
