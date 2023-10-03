@@ -110,3 +110,5 @@ We welcome pull requests from anyone who wants to contribute to our project. You
 ---
 
 astro-notion-blog is based [otoyo/notion-blog](https://github.com/otoyo/notion-blog)
+
+update for github actions 2023/10/3
