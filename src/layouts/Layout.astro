@@ -122,7 +122,7 @@ if (database.Icon && database.Icon.Type === 'file') {
         </div>
       </header>
 
-      <div>
+      <div class ="content-wrapper">
         <main>
           <div class="content">
 
@@ -172,7 +172,15 @@ if (database.Icon && database.Icon.Type === 'file') {
 
   header {
     display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
     max-width: 1480px;
+    z-index: 1000;
+  }
+
+  .content-wrapper {
+    padding-top: 10vh;
   }
 
   main {
@@ -216,7 +224,7 @@ if (database.Icon && database.Icon.Type === 'file') {
 
   header div.title {
     position: absolute;
-    padding: 8px 16px;
+    padding: 10px 16px;
   }
   header div.title h1 {
     font-size: 1.6em;
