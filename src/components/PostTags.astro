@@ -18,12 +18,12 @@ const { post, enableLink = true } = Astro.props
       post.Tags.map((tag: SelectProperty) => {
         if (enableLink) {
           return (
-            <a href={getTagLink(tag.name)} class={`tag ${tag.color}`}>
-              {tag.name}
+            <a href={getTagLink(tag.name)} class='post-tag'>
+              {'#' + tag.name}
             </a>
           )
         }
-        return <span class={`tag ${tag.color}`}>{tag.name}</span>
+        return <span class='post-tag'>{'#' + tag.name}</span>
       })
   }
 </div>
@@ -34,6 +34,8 @@ const { post, enableLink = true } = Astro.props
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 16px;
   }
   .post-tags a,
   .post-tags span {
@@ -41,10 +43,7 @@ const { post, enableLink = true } = Astro.props
     align-items: center;
     flex-shrink: 1;
     min-width: 0;
-    border-radius: 3px;
     padding: 2px 6px;
-    line-height: 1.2;
-    color: rgb(50, 48, 44);
-    background: rgba(227, 226, 224, 0.5);
+    color: rgb(214, 110, 41);
   }
 </style>
