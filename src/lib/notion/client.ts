@@ -330,7 +330,9 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   return allBlocks
 }
 
-export async function getPageIdPreviewMap(posts:Post[]): Promise<Map<string, string>> {
+export async function getPageIdPreviewMap(
+  posts: Post[]
+): Promise<Map<string, string>> {
   const result = new Map<string, string>()
 
   for (let i = 0; i < posts.length; i++) {
@@ -366,8 +368,12 @@ async function _getPreviewByPageId(pageId: string): Promise<string> {
     }
   }
 
-  const paragraphBlockObjects = results.filter((blockObject) => blockObject.type == 'paragraph')
-  const allParagraphBlocks = paragraphBlockObjects.map((object) => _buildBlock(object))
+  const paragraphBlockObjects = results.filter(
+    (blockObject) => blockObject.type == 'paragraph'
+  )
+  const allParagraphBlocks = paragraphBlockObjects.map((object) =>
+    _buildBlock(object)
+  )
 
   let previewText = ''
   const PREVIEW_LENGTH = 200
@@ -385,10 +391,7 @@ async function _getPreviewByPageId(pageId: string): Promise<string> {
       previewText += '...'
       break
     }
-　　 if (
-      block.Paragraph &&
-      block.HasChildren
-    ) {
+    if (block.Paragraph && block.HasChildren) {
       previewText += _getPreviewByPageId(block.Id)
 
       if (previewText.length > PREVIEW_LENGTH) {

@@ -166,13 +166,16 @@ export const getDateAndTimeStr = (date: string) => {
   const m = ('00' + (dt.getMonth() + 1)).slice(-2)
   const d = ('00' + dt.getDate()).slice(-2)
 
-  const hour =  ('00' + dt.getHours()).slice(-2)
-  const minute =  ('00' + dt.getMinutes()).slice(-2)
+  const hour = ('00' + dt.getHours()).slice(-2)
+  const minute = ('00' + dt.getMinutes()).slice(-2)
 
   return y + '-' + m + '-' + d + '\xa0\xa0' + hour + ' : ' + minute
 }
 
-export const getPreviewByPostId = (previews: Map<string, string>, postId: string) => {
+export const getPreviewByPostId = (
+  previews: Map<string, string>,
+  postId: string
+) => {
   return previews.get(postId) ? previews.get(postId) : ''
 }
 

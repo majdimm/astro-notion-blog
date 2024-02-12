@@ -2,7 +2,6 @@
 import { NUMBER_OF_POSTS_PER_PAGE } from '../server-constants.ts'
 import {
   getPosts,
-  getAllTags,
   getNumberOfPages,
   getPageIdPreviewMap
 } from '../lib/notion/client.ts'
@@ -13,12 +12,10 @@ import PostFeaturedImage from '../components/PostFeaturedImage.astro'
 import PostPreview from '../components/PostPreview.astro'
 import ReadMoreLink from '../components/ReadMoreLink.astro'
 import Pagination from '../components/Pagination.astro'
-import BlogTagsLink from '../components/BlogTagsLink.astro'
 import styles from '../styles/blog.module.css'
 
-const [posts, tags, numberOfPages] = await Promise.all([
+const [posts, numberOfPages] = await Promise.all([
   getPosts(NUMBER_OF_POSTS_PER_PAGE),
-  getAllTags(),
   getNumberOfPages(),
 ])
 
@@ -50,6 +47,5 @@ const [previews] = await Promise.all([
   </div>
 
   <div slot="aside" class={styles.aside}>
-    <BlogTagsLink heading="Categories" tags={tags} />
   </div>
 </Layout>

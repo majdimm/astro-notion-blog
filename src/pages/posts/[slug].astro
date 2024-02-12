@@ -5,7 +5,6 @@ import {
   getAllPosts,
   getPostBySlug,
   getBlock,
-  getAllTags,
   getAllBlocksByBlockId,
   downloadFile,
 } from '../../lib/notion/client.ts'
@@ -15,13 +14,11 @@ import {
   extractTargetBlocks,
 } from '../../lib/blog-helpers.ts'
 import Layout from '../../layouts/Layout.astro'
-import PostDate from '../../components/PostDate.astro'
 import PostTags from '../../components/PostTags.astro'
 import PostTitle from '../../components/PostTitle.astro'
 import PostBody from '../../components/PostBody.astro'
 import PostRelativeLink from '../../components/PostRelativeLink.astro'
 import BlogPostsLink from '../../components/BlogPostsLink.astro'
-import BlogTagsLink from '../../components/BlogTagsLink.astro'
 import styles from '../../styles/blog.module.css'
 
 export async function getStaticPaths() {
@@ -36,12 +33,11 @@ if (!post) {
   throw new Error('Post not found. slug: ${slug}')
 }
 
-const [blocks, allPosts, recentPosts, tags] =
+const [blocks, allPosts, recentPosts] =
   await Promise.all([
     getAllBlocksByBlockId(post.PageId),
     getAllPosts(),
     getPosts(5),
-    getAllTags(),
   ])
 
 const fileAtacchedBlocks = extractTargetBlocks('image', blocks)
@@ -100,7 +96,7 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
       <PostTitle post={post} enableLink={false} />
       <PostBody blocks={blocks} />
       <PostTags post={post} />
-      <PostDate post={post} />
+      <!-- <PostDate post={post} /> -->
 
       <footer>
         <PostRelativeLink prevPost={prevPost} nextPost={nextPost} />
@@ -110,6 +106,5 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
 
   <div slot="aside" class="aside">
     <BlogPostsLink heading="Latest posts" posts={recentPosts} />
-    <BlogTagsLink heading="Categories" tags={tags} />
   </div>
 </Layout>
