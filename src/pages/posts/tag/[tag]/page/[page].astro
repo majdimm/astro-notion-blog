@@ -13,7 +13,6 @@ import PostFeaturedImage from '../../../../../components/PostFeaturedImage.astro
 import PostPreview from '../../../../../components/PostPreview.astro'
 import ReadMoreLink from '../../../../../components/ReadMoreLink.astro'
 import Pagination from '../../../../../components/Pagination.astro'
-import BlogTagsLink from '../../../../../components/BlogTagsLink.astro'
 import styles from '../../../../../styles/blog.module.css'
 import '../../../../../styles/notion-color.css'
 
@@ -37,9 +36,8 @@ export async function getStaticPaths() {
 
 const { tag, page } = Astro.params
 
-const [posts, tags, numberOfPages] = await Promise.all([
+const [posts, numberOfPages] = await Promise.all([
   getPostsByTagAndPage(tag, parseInt(page, 10)),
-  getAllTags(),
   getNumberOfPagesByTag(tag),
 ])
 
@@ -47,7 +45,7 @@ const [previews] = await Promise.all([
   getPageIdPreviewMap(posts)
 ])
 
-const currentTag = posts[0].Tags.find((t) => t.name === tag)
+// const currentTag = posts[0].Tags.find((t) => t.name === tag)
 ---
 
 <Layout
@@ -87,7 +85,6 @@ const currentTag = posts[0].Tags.find((t) => t.name === tag)
   </div>
 
   <div slot="aside" class={styles.aside}>
-    <!-- <BlogTagsLink heading="Categories" tags={tags} /> -->
   </div>
 </Layout>
 
