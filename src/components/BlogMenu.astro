@@ -1,0 +1,48 @@
+---
+import type { SelectProperty } from '../lib/interfaces.js'
+import { getTagLink } from '../lib/blog-helpers.js'
+import '../styles/notion-color.css'
+
+export interface Props {
+  tags: SelectProperty[]
+}
+
+const { tags } = Astro.props
+---
+
+<div class="blog-menu">
+  {
+    tags.length > 0 ? (
+      <ul>
+        {tags.map((tag: SelectProperty) => (
+          <li>
+            <a href={getTagLink(tag.name)} class='menu-item'>
+              {tag.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : ''
+  }
+</div>
+
+<style>
+  .blog-menu {
+  }
+
+  .blog-menu ul {
+    list-style-type:none;
+  }
+  .blog-menu ul li {
+    display: inline-block;
+    position: relative;
+    margin-right: 45px;
+    line-height: 1.2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  .blog-menu ul li a {
+    min-width: 0;
+    color: white;
+  }
+</style>

@@ -1,7 +1,6 @@
 ---
 import {
   getPostsByPage,
-  getAllTags,
   getNumberOfPages,
   getPageIdPreviewMap,
 } from '../../../lib/notion/client.ts'
@@ -12,7 +11,6 @@ import PostFeaturedImage from '../../../components/PostFeaturedImage.astro'
 import PostPreview from '../../../components/PostPreview.astro'
 import ReadMoreLink from '../../../components/ReadMoreLink.astro'
 import Pagination from '../../../components/Pagination.astro'
-import BlogTagsLink from '../../../components/BlogTagsLink.astro'
 import styles from '../../../styles/blog.module.css'
 
 export async function getStaticPaths() {
@@ -27,9 +25,8 @@ export async function getStaticPaths() {
 
 const { page } = Astro.params
 
-const [posts, tags, numberOfPages] = await Promise.all([
+const [posts, numberOfPages] = await Promise.all([
   getPostsByPage(parseInt(page, 10)),
-  getAllTags(),
   getNumberOfPages(),
 ])
 
@@ -68,7 +65,6 @@ const [previews] = await Promise.all([
   </div>
 
   <div slot="aside" class={styles.aside}>
-    <BlogTagsLink heading="Categories" tags={tags} />
   </div>
 </Layout>
 
