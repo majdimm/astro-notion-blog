@@ -114,4 +114,4 @@ If you like astro-notion-blog, sponsor me so that I can keep on developing softw
 
 astro-notion-blog is based [otoyo/notion-blog](https://github.com/otoyo/notion-blog)
 
-update for github actions 2023/12/24
+update for github actions 2024/05/07
