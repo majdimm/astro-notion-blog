@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   schedule:
-   - cron: '0 12 * * *' # every day 14:00 UCT+2
+   - cron: '0 12 */2 * *' # every day 14:00 UCT+2
   workflow_dispatch:
 
 jobs:
