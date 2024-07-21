@@ -1,6 +1,6 @@
 ---
 import type { SelectProperty } from '../lib/interfaces.js'
-import { getTagLink } from '../lib/blog-helpers.js'
+import { getTagLink, getPostLink } from '../lib/blog-helpers.js'
 import '../styles/notion-color.css'
 
 export interface Props {
@@ -16,9 +16,15 @@ const { tags } = Astro.props
       <ul>
         {tags.map((tag: SelectProperty) => (
           <li>
-            <a href={getTagLink(tag.name)} class='menu-item'>
-              {tag.name}
-            </a>
+            {tag.name === "About" ? (
+              <a href={getPostLink("about")} class='menu-item'>
+                {tag.name}
+              </a>
+            ) : (
+              <a href={getTagLink(tag.name)} class='menu-item'>
+                {tag.name}
+              </a>
+            )}
           </li>
         ))}
       </ul>
