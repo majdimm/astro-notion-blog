@@ -73,7 +73,7 @@ const [tags] = await Promise.all([
     <meta name="twitter:description" content={siteDescription} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage || siteOGImage} />
-    <link rel="icon" href="favicon.svg">
+    <link rel="icon" href={getStaticFilePath('/favicon.svg')} />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
